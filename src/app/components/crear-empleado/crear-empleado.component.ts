@@ -12,8 +12,11 @@ import { EmpleadoService } from 'src/app/services/empleado.service';
 })
 export class CrearEmpleadoComponent implements OnInit {
 
-  // flag: hacer cick al boton para agregar empleado
+  // FLAG: hacer click al boton para agregar empleado
   submitted: boolean = false;
+
+  // FLAG SPINNER: hacer click al boton agregar para que aparezca el spinner
+  loading: boolean = false;
 
   // objeto empleado
   empleado: Empleado = {
@@ -61,6 +64,9 @@ export class CrearEmpleadoComponent implements OnInit {
       fechaActualizacion: new Date,
     }
 
+    // Spinner flag true
+    this.loading = true
+
     this.empleadoService.agregarempleado(this.empleado).then(()=>{
 
       // Toastr
@@ -73,6 +79,7 @@ export class CrearEmpleadoComponent implements OnInit {
     }).catch(error => {
 
       console.log(error);
+      this.loading = false;
     })
     
 
