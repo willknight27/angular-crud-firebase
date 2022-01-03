@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Empleado } from 'src/app/interfaces/empleado';
+import { EmpleadoService } from 'src/app/services/empleado.service';
 
 @Component({
   selector: 'app-crear-empleado',
@@ -23,7 +25,9 @@ export class CrearEmpleadoComponent implements OnInit {
   }
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private empleadoService: EmpleadoService,
+              private router: Router) { }
 
   formEmpleado = this.fb.group({
 
@@ -55,7 +59,13 @@ export class CrearEmpleadoComponent implements OnInit {
       fechaActualizacion: new Date,
     }
 
-    console.log(this.empleado);
+    this.empleadoService.agregarempleado(this.empleado).then(()=>{
+      console.log("Empleado registrado");
+      this.router.navigate(["/empleados"])
+    }).catch(error => {
+
+      console.log(error);
+    })
     
 
   }
