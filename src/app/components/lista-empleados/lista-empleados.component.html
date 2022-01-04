@@ -3,7 +3,11 @@
         <div class="card-body">
             <span class="h3">Listado de Empleados</span>
             <button class="btn btn-dark float-end" routerLink="/agregar-empleado">Agregar</button>
-            <table class="table mt-3 table-striped">
+            <!-- La tabla solo se mostrará si el array tiene datos-->
+            <div *ngIf="empleados.length == 0" class="alert alert-primary text-center mt-3" role="alert">
+                No hay registros en la base de datos.
+            </div>
+            <table *ngIf="empleados.length > 0" class="table mt-3 table-striped">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -14,29 +18,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Jean-Luc</td>
-                        <td>Picard</td>
-                        <td>12994434-9</td>
-                        <td>500.000</td>
+                    <tr *ngFor="let empleado of empleados">
+                        <td>{{ empleado.nombre }}</td>
+                        <td>{{ empleado.apellido }}</td>
+                        <td>{{ empleado.rut }}</td>
+                        <td>{{ empleado.salario | currency }}</td>
                         <td>
                             <i class="fas fa-edit fa-lg text-info me-3"></i>
-                            <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                            <i (click)="eliminarEmpleado(empleado.id)" class="fas fa-trash-alt fa-lg text-danger"></i>
                         </td>
-                    </tr>
-
-                    <tr>
-                        <td>Felipe</td>
-                        <td>Araya</td>
-                        <td>1688438-9</td>
-                        <td>400.000</td>
-                    </tr>
-
-                    <tr>
-                        <td>Alicia</td>
-                        <td>Araya</td>
-                        <td>10876378-0</td>
-                        <td>600.000</td>
                     </tr>
                 </tbody>
             </table>
