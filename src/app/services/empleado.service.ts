@@ -27,12 +27,15 @@ export class EmpleadoService {
       .snapshotChanges()
   }
 
+  // Obtener empleado
+  getEmpleado(id: string): Observable<any>{
+    return this.firestore.collection('empleados').doc(id).snapshotChanges();
+  }
 
+  // Eliminar empleado de acuedo a su id
   deleteEmpleado(id:string): Promise<any>{
     // .doc nos retorna un documento en especifico, en este caso de acuerdo al ID
     return this.firestore.collection('empleados').doc(id).delete()
   }
-
-
 
 }
