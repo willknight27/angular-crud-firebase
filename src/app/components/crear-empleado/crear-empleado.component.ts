@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Empleado } from 'src/app/interfaces/empleado';
+import { Empleado, EmpleadoActualizado } from 'src/app/interfaces/empleado';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
 @Component({
@@ -25,6 +25,9 @@ export class CrearEmpleadoComponent implements OnInit {
   // Titulo de la página: Agregar Empleado o Editar Empleado
   titulo: string = 'Agregar Empleado';
 
+  // Texto del boton (Agregar 0 Actualizar)
+  textoBoton: string = 'Agregar';
+
   // objeto empleado
   empleado: Empleado = {
     nombre: "",
@@ -35,7 +38,15 @@ export class CrearEmpleadoComponent implements OnInit {
     fechaActualizacion: new Date(0),
   }
 
+  empleadoActualizado:EmpleadoActualizado = {
+    nombre: "",
+    apellido: "",
+    rut: "",
+    salario: 0,
+    fechaActualizacion: new Date(0),
+  }
 
+  
   constructor(private fb: FormBuilder,
     private empleadoService: EmpleadoService,
     private router: Router,
@@ -71,7 +82,7 @@ export class CrearEmpleadoComponent implements OnInit {
     if (this.id == null) {
       this.agregarEmpleado()
     }else{
-      this.editarEmpleado()
+      this.editarEmpleado(this.id)
     }
 
 
@@ -107,8 +118,26 @@ export class CrearEmpleadoComponent implements OnInit {
     })
   }
 
-  editarEmpleado(){
+  editarEmpleado(id:string){
+    this.loading = true;
 
+    this.empleadoActualizado = {
+      nombre: this.formEmpleado.value.nombre,
+      apellido: this.formEmpleado.value.apellido,
+      rut: this.formEmpleado.value.rut,
+      salario: this.formEmpleado.value.salario,
+      fechaActualizacion: new Date,
+    }
+
+    this.empleadoService.actualizarEmpleado(id, this.empleadoActualizado).then( ()=>{
+      this.loading = false;
+
+      this.toastr.info("El empleado ha sido actualizado con éxito","Empleado actualizado",
+      {positionClass: 'toast-bottom-right' });
+
+      // redirección
+      this.router.navigate(["/empleados"]);
+    });
   }
 
   // Metodo para obtener datos de empleado para editarlos en el formulario
@@ -117,6 +146,7 @@ export class CrearEmpleadoComponent implements OnInit {
     if (this.id !== null) {
       this.loading = true;
       this.titulo = 'Editar Empleado';
+      this.textoBoton = 'Actualizar'
       this.empleadoService.getEmpleado(this.id).subscribe( data => {
         this.loading = false;
         // Acceder a todos los datos -> data.payload.data()

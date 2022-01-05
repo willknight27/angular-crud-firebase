@@ -18,3 +18,11 @@ export interface Empleados {
     fechaActualizacion:Date;
 
 }
+
+export interface EmpleadoActualizado{
+    nombre: string;
+    apellido: string;
+    rut:string;
+    salario:number;
+    fechaActualizacion:Date;
+}

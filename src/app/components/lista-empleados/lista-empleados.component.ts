@@ -43,8 +43,8 @@ export class ListaEmpleadosComponent implements OnInit {
   eliminarEmpleado(id: string){
     this.empleadoService.deleteEmpleado(id).then( ()=> {
 
-      this.toastr.info("El empleado ha sido eliminado con exito","Empleado eliminado",
-      {positionClass: 'toast-bottom-right' })
+      this.toastr.warning("El empleado ha sido eliminado con éxito","Empleado eliminado",
+      {positionClass: 'toast-bottom-right' });
       console.log("Empleado eliminado");
       
     }).catch( error => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Empleado } from '../interfaces/empleado';
+import { Empleado, EmpleadoActualizado } from '../interfaces/empleado';
 import { Observable } from 'rxjs';
 import { query } from 'firebase/firestore';
 @Injectable({
@@ -38,4 +38,8 @@ export class EmpleadoService {
     return this.firestore.collection('empleados').doc(id).delete()
   }
 
+  // Editar empleado
+  actualizarEmpleado(id:string, empleado:EmpleadoActualizado): Promise<any>{
+    return this.firestore.collection('empleados').doc(id).update(empleado);
+  }
 }
