@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Empleado } from 'src/app/interfaces/empleado';
 import { EmpleadoService } from 'src/app/services/empleado.service';
@@ -18,6 +18,9 @@ export class CrearEmpleadoComponent implements OnInit {
   // FLAG SPINNER: hacer click al boton agregar para que aparezca el spinner
   loading: boolean = false;
 
+  // ID: variable que sera un string o null si esta el parametro en la url para editar empleado
+  id: string | null = '';
+
   // objeto empleado
   empleado: Empleado = {
     nombre: "",
@@ -32,7 +35,13 @@ export class CrearEmpleadoComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private empleadoService: EmpleadoService,
               private router: Router,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private activatedRoute: ActivatedRoute) {
+    
+    // Parametro id es el que esta escrito como parametro en la ruta de editar empleado
+    this.id = this.activatedRoute.snapshot.paramMap.get('id')
+    console.log(this.id)
+  }
 
   formEmpleado = this.fb.group({
 
