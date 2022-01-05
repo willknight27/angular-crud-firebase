@@ -3,7 +3,7 @@
         <div class="col-lg-8 offset-lg-2">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>Agregar Empleado
+                    <h3>{{titulo}}
 
                         <div *ngIf="loading" class="spinner-border text-info float-end" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -34,7 +34,7 @@
                     </div>
 
 
-                    <form [formGroup]="formEmpleado" (ngSubmit)="agregarEmpleado()" class="mt-4">
+                    <form [formGroup]="formEmpleado" (ngSubmit)="agregarEditarEmpleado()" class="mt-4">
 
                         <div class="row">
 
